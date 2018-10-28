@@ -15,6 +15,72 @@ version_added: "2.7"
 
 author:
     - @lobstermania
+
+description:
+ - Allows the addition and deletion of nodes from the Consul catalog. See https://www.consul.io/api/catalog.html.
+
+options:
+  consul_host:
+    description:
+      - The Consul endpoint to connect to.
+    required: false
+    default: localhost
+  consul_port:
+    description:
+      - The Consul port to connect to.
+    required: false
+    default: 8500
+  token:
+    description:
+      - ACL token.
+    required: false
+  node: 
+    description:
+      - The catalog node to add or remove
+    required: true
+  dc:
+    description:
+      - The Consul DC to work with
+    default: dc1
+  address:
+    description:
+      - The catalog node's address
+    required: true
+  scheme:
+    description:
+      - The scheme to connect to Consul
+    default: http
+    required: false
+    choices: ['http','https']
+  verify:
+    description:
+      - Verify Consul endpoint (used in conjunction with https scheme)
+    default: false
+    required: false
+  state:
+    description:
+      - Add or remove the node
+    default: present
+    required: false
+    choices: ['present','absent']
+  service:
+    description:
+      - JSON service to register, see https://www.consul.io/api/catalog.html#service.
+    required: false
+
+requirements:
+  - "python >= 2.7"
+  - python-consul
+
+'''
+
+EXAMPLES = '''
+    - consul_catalog:
+        node: "db1.example.net"
+        address: "db1.example.net"
+        state: present
+        token: "notcheese"
+        service: "{'Port': 5432, 'ID': 'db1_postgres', 'Service': 'postgres', 'Tags': ['v1', 'prod']}"
 '''
 
 from ansible.module_utils.basic import *
